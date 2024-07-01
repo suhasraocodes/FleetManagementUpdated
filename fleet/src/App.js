@@ -1,11 +1,16 @@
-
-import './App.css';
-
-function App() {
+import { CardWithForm } from './items/card';
+import Navbar from './items/Navbar';
+import Carousel from './items/Carousel';
+function App() {  
   return (
-    <div className="App">
-      <h1 className='text-6xl text-red-500'>My First React App</h1>
+    <div>
+      <div><Navbar/>
+      <Carousel/></div>
+      <div className="flex justify-center items-center h-screen">
+      <CardWithForm />
     </div>
+    </div>
+    
   );
 }
 
