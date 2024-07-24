@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState('Dashboard'); // Initially set to the first menu item
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -13,8 +14,24 @@ const Navbar = () => {
     // Additional logic if needed on menu item click
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <nav className="bg-gray-800 shadow">
+    <nav className={`fixed w-full z-10 transition-colors duration-300 ${isScrolled ? 'bg-white text-black' : 'bg-gray-800 text-white'} shadow`}>
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           {/* Navbar logo */}
@@ -22,7 +39,7 @@ const Navbar = () => {
             {/* Mobile menu button */}
             <button
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-black hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-black"
               aria-controls="mobile-menu"
               aria-expanded={isOpen ? 'true' : 'false'}
               onClick={toggleMenu}
@@ -66,18 +83,15 @@ const Navbar = () => {
           {/* Navbar items */}
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             {/* Logo */}
-            <div className="flex-shrink-0">
-              <img
-                className="block lg:hidden h-8 w-auto"
-                src="/img/tailwind-logo.svg"
-                alt="Workflow"
-              />
-              <img
-                className="hidden lg:block h-8 w-auto"
-                src="https://w7.pngwing.com/pngs/575/280/png-transparent-car-gps-navigation-systems-vehicle-tracking-system-fleet-management-fleet-vehicle-car-truck-logo-vehicle-thumbnail.png"
-                alt="Workflow"
-              />
-            </div>
+            <div className="flex-shrink-0 flex items-center">
+  <img
+    className="lg:block h-8 w-auto"
+    src="https://w7.pngwing.com/pngs/575/280/png-transparent-car-gps-navigation-systems-vehicle-tracking-system-fleet-management-fleet-vehicle-car-truck-logo-vehicle-thumbnail.png"
+    alt="Workflow"
+  />
+  <span className={`ml-2 text-xl font-bold ${isScrolled ? 'text-black' : 'text-white'}`}>FleetMaster</span>
+</div>
+
             {/* Menu items */}
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
@@ -87,7 +101,7 @@ const Navbar = () => {
                   className={`${
                     activeMenu === 'Dashboard'
                       ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                      : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
                   } px-3 py-2 rounded-md text-sm font-medium`}
                   onClick={() => handleMenuItemClick('Dashboard')}
                 >
@@ -99,7 +113,7 @@ const Navbar = () => {
                   className={`${
                     activeMenu === 'Team'
                       ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                      : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
                   } px-3 py-2 rounded-md text-sm font-medium`}
                   onClick={() => handleMenuItemClick('Team')}
                 >
@@ -111,7 +125,7 @@ const Navbar = () => {
                   className={`${
                     activeMenu === 'Projects'
                       ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                      : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
                   } px-3 py-2 rounded-md text-sm font-medium`}
                   onClick={() => handleMenuItemClick('Projects')}
                 >
@@ -123,7 +137,7 @@ const Navbar = () => {
                   className={`${
                     activeMenu === 'Calendar'
                       ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                      : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
                   } px-3 py-2 rounded-md text-sm font-medium`}
                   onClick={() => handleMenuItemClick('Calendar')}
                 >
@@ -163,7 +177,7 @@ const Navbar = () => {
               className={`${
                 activeMenu === 'Dashboard'
                   ? 'bg-gray-900 text-white'
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
               } block px-3 py-2 rounded-md text-base font-medium`}
               onClick={() => handleMenuItemClick('Dashboard')}
             >
@@ -175,7 +189,7 @@ const Navbar = () => {
               className={`${
                 activeMenu === 'Team'
                   ? 'bg-gray-900 text-white'
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
               } block px-3 py-2 rounded-md text-base font-medium`}
               onClick={() => handleMenuItemClick('Team')}
             >
@@ -187,7 +201,7 @@ const Navbar = () => {
               className={`${
                 activeMenu === 'Projects'
                   ? 'bg-gray-900 text-white'
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
               } block px-3 py-2 rounded-md text-base font-medium`}
               onClick={() => handleMenuItemClick('Projects')}
             >
@@ -199,7 +213,7 @@ const Navbar = () => {
               className={`${
                 activeMenu === 'Calendar'
                   ? 'bg-gray-900 text-white'
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
               } block px-3 py-2 rounded-md text-base font-medium`}
               onClick={() => handleMenuItemClick('Calendar')}
             >
@@ -212,4 +226,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar
