@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card'; // Adjust the path here
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card'; // Adjust the path here
 
 const trucks = [
   { id: 1, image: 'https://wallpapers.com/images/featured/cool-trucks-cdvn4ttk7o8geggz.jpg', driver: 'John Doe' },

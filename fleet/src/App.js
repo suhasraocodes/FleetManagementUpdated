@@ -3,24 +3,30 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './items/Navbar';
 import HomePage from './items/Homepage';
 import Vehicles from './items/Vehicles';
-import TruckList from './items/TruckList';
-import TruckDetail from './items/TruckDetail';
+import TruckList from './items/trucks/TruckList';
+import TruckDetail from './items/trucks/TruckDetail';
 import { CardWithForm } from './items/card';
+import DriversList from './items/driver/driverslist';// Import the DriversList component
+import Footer from './items/footer';// Import the Footer component
 
 function App() {
   return (
     <Router>
-      <div>
+      <div className="flex flex-col min-h-screen">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/vehicles" element={<Vehicles />} />
-          <Route path="/trucks" element={<TruckList />} />
-          <Route path="/trucks/:id" element={<TruckDetail />} />
-        </Routes>
-      </div>
-      <div className="flex justify-center items-center h-screen">
-        <CardWithForm />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/vehicles" element={<Vehicles />} />
+            <Route path="/trucks" element={<TruckList />} />
+            <Route path="/trucks/:id" element={<TruckDetail />} />
+            <Route path="/drivers" element={<DriversList />} /> {/* Add this route */}
+          </Routes>
+          {/* <div className="flex justify-center items-center h-screen">
+            <CardWithForm />
+          </div> */}
+        </main>
+        <Footer />
       </div>
     </Router>
   );

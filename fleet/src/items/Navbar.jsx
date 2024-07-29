@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -84,20 +85,20 @@ const Navbar = () => {
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
-  <img
-    className="lg:block h-8 w-auto"
-    src="https://w7.pngwing.com/pngs/575/280/png-transparent-car-gps-navigation-systems-vehicle-tracking-system-fleet-management-fleet-vehicle-car-truck-logo-vehicle-thumbnail.png"
-    alt="Workflow"
-  />
-  <span className={`ml-2 text-xl font-bold ${isScrolled ? 'text-black' : 'text-white'}`}>FleetMaster</span>
-</div>
+              <img
+                className="lg:block h-8 w-auto"
+                src="https://w7.pngwing.com/pngs/575/280/png-transparent-car-gps-navigation-systems-vehicle-tracking-system-fleet-management-fleet-vehicle-car-truck-logo-vehicle-thumbnail.png"
+                alt="Workflow"
+              />
+              <span className={`ml-2 text-xl font-bold ${isScrolled ? 'text-black' : 'text-white'}`}>FleetMaster</span>
+            </div>
 
             {/* Menu items */}
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
                 {/* Dashboard */}
-                <a
-                  href="#"
+                <Link
+                  to="/"
                   className={`${
                     activeMenu === 'Dashboard'
                       ? 'bg-gray-900 text-white'
@@ -106,10 +107,10 @@ const Navbar = () => {
                   onClick={() => handleMenuItemClick('Dashboard')}
                 >
                   Dashboard
-                </a>
+                </Link>
                 {/* Team */}
-                <a
-                  href="#"
+                <Link
+                  to="/drivers"
                   className={`${
                     activeMenu === 'Team'
                       ? 'bg-gray-900 text-white'
@@ -118,10 +119,10 @@ const Navbar = () => {
                   onClick={() => handleMenuItemClick('Team')}
                 >
                   Team
-                </a>
+                </Link>
                 {/* Projects */}
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className={`${
                     activeMenu === 'Projects'
                       ? 'bg-gray-900 text-white'
@@ -130,10 +131,10 @@ const Navbar = () => {
                   onClick={() => handleMenuItemClick('Projects')}
                 >
                   Projects
-                </a>
+                </Link>
                 {/* Calendar */}
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className={`${
                     activeMenu === 'Calendar'
                       ? 'bg-gray-900 text-white'
@@ -142,7 +143,7 @@ const Navbar = () => {
                   onClick={() => handleMenuItemClick('Calendar')}
                 >
                   Calendar
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -172,8 +173,8 @@ const Navbar = () => {
         <div className="sm:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {/* Dashboard */}
-            <a
-              href="#"
+            <Link
+              to="/"
               className={`${
                 activeMenu === 'Dashboard'
                   ? 'bg-gray-900 text-white'
@@ -182,10 +183,10 @@ const Navbar = () => {
               onClick={() => handleMenuItemClick('Dashboard')}
             >
               Dashboard
-            </a>
+            </Link>
             {/* Team */}
-            <a
-              href="#"
+            <Link
+              to="/drivers"
               className={`${
                 activeMenu === 'Team'
                   ? 'bg-gray-900 text-white'
@@ -194,10 +195,10 @@ const Navbar = () => {
               onClick={() => handleMenuItemClick('Team')}
             >
               Team
-            </a>
+            </Link>
             {/* Projects */}
-            <a
-              href="#"
+            <Link
+              to="#"
               className={`${
                 activeMenu === 'Projects'
                   ? 'bg-gray-900 text-white'
@@ -206,10 +207,10 @@ const Navbar = () => {
               onClick={() => handleMenuItemClick('Projects')}
             >
               Projects
-            </a>
+            </Link>
             {/* Calendar */}
-            <a
-              href="#"
+            <Link
+              to="#"
               className={`${
                 activeMenu === 'Calendar'
                   ? 'bg-gray-900 text-white'
@@ -218,7 +219,7 @@ const Navbar = () => {
               onClick={() => handleMenuItemClick('Calendar')}
             >
               Calendar
-            </a>
+            </Link>
           </div>
         </div>
       )}
@@ -226,4 +227,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar
+export default Navbar;

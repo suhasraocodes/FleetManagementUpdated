@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card'; // Adjust the path here
-import Avatar from '../components/ui/Avatar'; // Adjust the path here
-import Badge from '../components/ui/Badge'; // Adjust the path here
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card'; // Adjust the path here
+import Avatar from '../../components/ui/Avatar'; // Adjust the path here
+import Badge from '../../components/ui/Badge'; // Adjust the path here
 import truckDetails from './trucks'; // Adjust the path if needed
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -48,6 +48,9 @@ const TruckDetail = () => {
               <p className="mb-2"><strong>Capacity:</strong> {truck.capacity}</p>
               <p className="mb-2"><strong>Fuel Type:</strong> {truck.fuelType}</p>
               <p className="mb-2"><strong>Status:</strong> <Badge>{truck.status}</Badge></p>
+              <p className="mb-2"><strong>License Plate:</strong> {truck.licensePlate}</p>
+              <p className="mb-2"><strong>Year:</strong> {truck.year}</p>
+              <p className="mb-2"><strong>Model:</strong> {truck.model}</p>
             </div>
             <div>
               <MapContainer center={[truck.coordinates.lat, truck.coordinates.lng]} zoom={13} style={{ height: '300px', width: '100%' }}>
