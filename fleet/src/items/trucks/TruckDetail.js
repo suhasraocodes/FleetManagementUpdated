@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card'; // Adjust the path here
-import Avatar from '../../components/ui/Avatar'; // Adjust the path here
-import Badge from '../../components/ui/Badge'; // Adjust the path here
-import truckDetails from './trucks'; // Adjust the path if needed
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
+import Avatar from '../../components/ui/Avatar';
+import Badge from '../../components/ui/Badge';
+import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -18,23 +18,49 @@ L.Icon.Default.mergeOptions({
 
 const TruckDetail = () => {
   const { id } = useParams();
-  const truck = truckDetails[id];
+  const [truck, setTruck] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!truck) {
-    return <div className="p-20">Truck details not found.</div>;
-  }
+  useEffect(() => {
+    const fetchTruckDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/trucks/${id}`);
+        setTruck(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTruckDetails();
+  }, [id]);
+
+  if (loading) return <div className="p-20">Loading...</div>;
+  if (error) return <div className="p-20">Error: {error}</div>;
+  if (!truck) return <div className="p-20">Truck details not found.</div>;
+
+  // Fix the backslashes in the image URL
+  const imageUrl = truck.image ? `http://localhost:8000/${truck.image.replace(/\\/g, '/')}` : '/path/to/default/image.jpg';
+
+  // Fix the backslashes in the driver's image URL
+  const driverImageUrl = truck.driverImage ? `http://localhost:8000/${truck.driverImage.replace(/\\/g, '/')}` : '/path/to/default/avatar.jpg';
+
+  // Determine the badge color based on status
+  const badgeClass = truck.status === 'Inactive' ? 'bg-red-500 text-white' : 'bg-green-100 text-green-800';
 
   return (
     <div className="p-20 flex justify-center">
       <Card className="w-full max-w-4xl">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold">Truck {id} Details</CardTitle>
-          <CardDescription className="text-gray-600">Detailed information about Truck {id}</CardDescription>
+          <CardTitle className="text-3xl font-bold">Truck {truck.name} Details</CardTitle>
+          <CardDescription className="text-gray-600">Detailed information about Truck {truck.name}</CardDescription>
         </CardHeader>
         <CardContent>
-          <img src={truck.image} alt={`Truck ${id}`} className="mb-4 w-full h-64 object-cover rounded-lg shadow-md" />
+          <img src={imageUrl} alt={`Truck ${id}`} className="mb-4 w-full h-64 object-cover rounded-lg shadow-md" />
           <div className="flex items-center mb-4">
-            <Avatar name={truck.driver} src={truck.driverImage} className="mr-4" />
+            <Avatar name={truck.driver} src={driverImageUrl} className="mr-4" />
             <div>
               <p className="text-xl font-semibold">{truck.driver}</p>
               <p className="text-gray-600">Driver</p>
@@ -47,7 +73,7 @@ const TruckDetail = () => {
               <p className="mb-2"><strong>Next Scheduled Maintenance:</strong> {truck.maintenance}</p>
               <p className="mb-2"><strong>Capacity:</strong> {truck.capacity}</p>
               <p className="mb-2"><strong>Fuel Type:</strong> {truck.fuelType}</p>
-              <p className="mb-2"><strong>Status:</strong> <Badge>{truck.status}</Badge></p>
+              <p className="mb-2"><strong>Status:</strong> <Badge className={badgeClass}>{truck.status}</Badge></p>
               <p className="mb-2"><strong>License Plate:</strong> {truck.licensePlate}</p>
               <p className="mb-2"><strong>Year:</strong> {truck.year}</p>
               <p className="mb-2"><strong>Model:</strong> {truck.model}</p>

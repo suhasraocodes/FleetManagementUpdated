@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card'; // Adjust the path here
 
 const vehicles = [
-  { type: 'Trucks', count: 10, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-d_ok4o41sosOtDK8AeSDh2GHLu_wLDU48Q&s' },
+  { type: 'Trucks', count: 0, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-d_ok4o41sosOtDK8AeSDh2GHLu_wLDU48Q&s' },
   { type: 'Bus', count: 5, image: 'https://i.pinimg.com/736x/e4/38/5d/e4385d5498a380542f5497a0de60fcd7.jpg' },
   { type: 'Cars', count: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZuyQ3XZG7oRZOj-vd0IlVVNg35qfdY5aqHQ&s' },
   { type: 'Bikes', count: 15, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjKGKtx2zJ7LSW976lausgPnCqek8zWsDLmA&s' },

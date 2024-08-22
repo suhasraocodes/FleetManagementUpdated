@@ -87,7 +87,7 @@ const Navbar = () => {
             <div className="flex-shrink-0 flex items-center">
               <img
                 className="lg:block h-8 w-auto"
-                src="https://w7.pngwing.com/pngs/575/280/png-transparent-car-gps-navigation-systems-vehicle-tracking-system-fleet-management-fleet-vehicle-car-truck-logo-vehicle-thumbnail.png"
+                src="truck.png"
                 alt="Workflow"
               />
               <span className={`ml-2 text-xl font-bold ${isScrolled ? 'text-black' : 'text-white'}`}>FleetMaster</span>
@@ -122,15 +122,15 @@ const Navbar = () => {
                 </Link>
                 {/* Projects */}
                 <Link
-                  to="#"
+                  to="/register"
                   className={`${
-                    activeMenu === 'Projects'
+                    activeMenu === 'Register'
                       ? 'bg-gray-900 text-white'
                       : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
                   } px-3 py-2 rounded-md text-sm font-medium`}
                   onClick={() => handleMenuItemClick('Projects')}
                 >
-                  Projects
+                  Register Truck
                 </Link>
                 {/* Calendar */}
                 <Link
