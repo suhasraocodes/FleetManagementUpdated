@@ -9,7 +9,7 @@ import { CardWithForm } from './items/card';
 import DriversList from './items/driver/driverslist';// Import the DriversList component
 import Footer from './items/footer';// Import the Footer component
 import Register from './items/Registration/Register';
-
+import DriverRegister from './items/Registration/DriverRegister';
 function App() {
   return (
     <Router>
@@ -23,6 +23,7 @@ function App() {
             <Route path="/trucks/:id" element={<TruckDetail />} />
             <Route path="/drivers" element={<DriversList />} /> {/* Add this route */}
             <Route path="/register" element={<Register />} />
+            <Route path="/driverreg" element={<DriverRegister/>}/>
           </Routes>
           {/* <div className="flex justify-center items-center h-screen">
             <CardWithForm />

@@ -132,6 +132,17 @@ const Navbar = () => {
                 >
                   Register Truck
                 </Link>
+                <Link
+                  to="/driverreg"
+                  className={`${
+                    activeMenu === 'Register'
+                      ? 'bg-gray-900 text-white'
+                      : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
+                  } px-3 py-2 rounded-md text-sm font-medium`}
+                  onClick={() => handleMenuItemClick('Projects')}
+                >
+                  Register Driver
+                </Link>
                 {/* Calendar */}
                 <Link
                   to="#"

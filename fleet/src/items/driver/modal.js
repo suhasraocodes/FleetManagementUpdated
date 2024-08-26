@@ -1,15 +1,18 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
+import Avatar from '../../components/ui/Avatar';
 
 const Modal = ({ isOpen, onClose, driver }) => {
   if (!isOpen || !driver) return null;
 
+  // Ensure driverImage has a valid URL or path
+  const driverImageUrl = driver.driverImage ? `http://localhost:8000/${driver.driverImage}` : '/path/to/default/avatar.jpg';
+
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-4 md:mx-0">
-        <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-2xl font-semibold">{driver.name}</h2>
+      <Card className="w-full max-w-4xl bg-white rounded-lg shadow-lg mx-4 md:mx-0">
+        <CardHeader className="flex justify-between items-center p-4 border-b">
+          <CardTitle className="text-2xl font-semibold">{driver.name}</CardTitle>
           <button
             className="text-gray-500 hover:text-gray-700"
             onClick={onClose}
@@ -30,32 +33,15 @@ const Modal = ({ isOpen, onClose, driver }) => {
               />
             </svg>
           </button>
-        </div>
-        <div className="p-4">
-          <img src={driver.image} alt={driver.name} className="w-32 h-32 object-cover rounded-full mb-4 mx-auto" />
-          <p className="text-gray-600 mb-2"><strong>Location:</strong> {driver.location}</p>
-          <p className="text-gray-600 mb-2"><strong>Truck:</strong> {driver.truck}</p>
-          <p className="text-gray-600 mb-2"><strong>License Plate:</strong> {driver.licensePlate}</p>
-          <p className="text-gray-600 mb-2"><strong>Year:</strong> {driver.year}</p>
-          <p className="text-gray-600 mb-2"><strong>Model:</strong> {driver.model}</p>
-          <p className="text-gray-600 mb-2"><strong>Driver License:</strong> {driver.license}</p>
-          
-          {/* Map Container */}
-          <div className="mt-4 h-64 w-full">
-            <MapContainer center={[driver.coordinates.lat, driver.coordinates.lng]} zoom={13} style={{ height: '100%', width: '100%' }}>
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <Marker position={[driver.coordinates.lat, driver.coordinates.lng]}>
-                <Popup>
-                  {driver.location}
-                </Popup>
-              </Marker>
-            </MapContainer>
+        </CardHeader>
+        <CardContent className="p-4 flex items-start">
+          <Avatar name={driver.name} src={driverImageUrl} className="w-52 h-52 object-cover rounded-full mr-4" />
+          <div className="flex flex-col justify-center">
+            <p className="text-gray-600 mb-2"><strong>Contact:</strong> {driver.contactInfo}</p>
+            <p className="text-gray-600 mb-2"><strong>License Number:</strong> {driver.licenseNumber}</p>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

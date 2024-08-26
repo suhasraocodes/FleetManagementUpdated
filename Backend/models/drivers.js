@@ -1,51 +1,22 @@
 const mongoose = require('mongoose');
 
-// Define user schema
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    image: {
-        type: String // Assuming this will store the URL of the image
-    },
-    location: {
-        type: String,
-        required: true
-    },
-    truck: {
-        type: String,
-        required: true
-    },
-    licensePlate: {
-        type: String,
-        required: true
-    },
-    year: {
-        type: Number,
-        required: true
-    },
-    license: {
-        type: String,
-        required: true
-    },
-    model: {
-        type: String,
-        required: true
-    },
-    coordinates: {
-        lat: {
-            type: Number,
-            required: true
-        },
-        lng: {
-            type: Number,
-            required: true
-        }
-    }
-});
+const driverSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  contactInfo: {
+    type: String,
+    required: true,
+  },
+  licenseNumber: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  driverImage: {
+    type: String, // Store the path to the image as a string
+  },
+}, { timestamps: true });
 
-// Create truck model
-const user = mongoose.model('user', userSchema);
-
-module.exports = user;
+module.exports = mongoose.model('Driver', driverSchema);
