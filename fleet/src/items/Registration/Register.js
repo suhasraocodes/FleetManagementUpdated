@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { toast } from 'sonner';
 
 function Register() {
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
   const [drivers, setDrivers] = useState([]);
   const [driverImagePath, setDriverImagePath] = useState('');
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
 
   useEffect(() => {
     // Fetch drivers from the backend
@@ -15,8 +17,27 @@ function Register() {
         setDrivers(response.data);
       })
       .catch(error => {
+        toast.error('Error fetching drivers');
         console.error('Error fetching drivers:', error);
       });
+
+    // Get user's current location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCoordinates({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          toast.error('Error getting location');
+          console.error('Error getting location:', error);
+        }
+      );
+    } else {
+      toast.error('Geolocation is not supported by this browser.');
+    }
   }, []);
 
   const onSubmit = async (data) => {
@@ -35,9 +56,9 @@ function Register() {
     formData.append('year', data.year);
     formData.append('model', data.model);
 
-    // Append nested coordinates
-    formData.append('coordinates.lat', data.coordinates.lat);
-    formData.append('coordinates.lng', data.coordinates.lng);
+    // Append coordinates from the state
+    formData.append('coordinates.lat', coordinates.lat);
+    formData.append('coordinates.lng', coordinates.lng);
 
     // Append files to FormData
     if (data.image[0]) {
@@ -56,12 +77,13 @@ function Register() {
         }
       });
       reset(); // Reset the form after successful submission
-      alert('Truck registered successfully!');
+      toast.success('Truck registered successfully!');
     } catch (error) {
+      toast.error('Failed to register truck.');
       console.error('Error registering truck:', error);
-      alert('Failed to register truck.');
     }
   };
+
   // Handle driver selection
   const handleDriverChange = (e) => {
     const selectedDriver = drivers.find(driver => driver.name === e.target.value);
@@ -163,19 +185,18 @@ function Register() {
               {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
             </div>
 
-            {/* Latitude */}
-            <div className="flex flex-col">
-              <label className="font-semibold">Latitude</label>
-              <input type="number" step="any" {...register('coordinates.lat', { required: 'Latitude is required' })} className="border p-2 rounded" />
-              {errors.coordinates?.lat && <p className="text-red-500 text-sm">{errors.coordinates.lat.message}</p>}
-            </div>
-
-            {/* Longitude */}
-            <div className="flex flex-col">
-              <label className="font-semibold">Longitude</label>
-              <input type="number" step="any" {...register('coordinates.lng', { required: 'Longitude is required' })} className="border p-2 rounded" />
-              {errors.coordinates?.lng && <p className="text-red-500 text-sm">{errors.coordinates.lng.message}</p>}
-            </div>
+            {/* Latitude and Longitude */}
+            {coordinates.lat !== null && coordinates.lng !== null ? (
+              <div className="flex flex-col">
+                <label className="font-semibold">Coordinates</label>
+                <input type="text" value={`Latitude: ${coordinates.lat}, Longitude: ${coordinates.lng}`} readOnly className="border p-2 rounded bg-gray-100" />
+              </div>
+            ) : (
+              <div className="flex flex-col">
+                <label className="font-semibold">Coordinates</label>
+                <input type="text" value="Fetching location..." readOnly className="border p-2 rounded bg-gray-100" />
+              </div>
+            )}
 
             {/* License Plate */}
             <div className="flex flex-col">

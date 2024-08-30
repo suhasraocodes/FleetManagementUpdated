@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/drivers'); // Directory where images will be stored
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+    cb(null, Date.now() + '-' + file.originalname); // Unique filename
   }
 });
 const upload = multer({ storage: storage });
@@ -26,6 +26,7 @@ router.post('/reg', upload.single('driverImage'), async (req, res) => {
       return res.status(400).json({ message: 'Driver with this license number already exists.' });
     }
 
+    // Create a new driver
     const newDriver = new Driver({
       name,
       contactInfo,
@@ -40,15 +41,16 @@ router.post('/reg', upload.single('driverImage'), async (req, res) => {
     res.status(500).json({ message: 'Failed to register driver' });
   }
 });
+
 // Fetch all drivers
 router.get('/', async (req, res) => {
-    try {
-      const drivers = await Driver.find();
-      res.json(drivers);
-    } catch (error) {
-      console.error('Error fetching drivers:', error);
-      res.status(500).json({ message: 'Failed to fetch drivers' });
-    }
-  });
-  
+  try {
+    const drivers = await Driver.find();
+    res.json(drivers);
+  } catch (error) {
+    console.error('Error fetching drivers:', error);
+    res.status(500).json({ message: 'Failed to fetch drivers' });
+  }
+});
+
 module.exports = router;
