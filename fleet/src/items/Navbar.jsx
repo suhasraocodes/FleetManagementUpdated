@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('Dashboard'); // Initially set to the first menu item
+  const [activeMenu, setActiveMenu] = useState('Dashboard');
   const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleMenu = () => {
@@ -12,17 +12,12 @@ const Navbar = () => {
 
   const handleMenuItemClick = (menuItem) => {
     setActiveMenu(menuItem);
-    // Additional logic if needed on menu item click
+    setIsOpen(false); // Close menu on item click for mobile view
   };
 
   useEffect(() => {
     const handleScroll = () => {
-      const offset = window.scrollY;
-      if (offset > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -30,6 +25,14 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const navItems = [
+    { name: 'Dashboard', path: '/' },
+    { name: 'Team', path: '/drivers' },
+    { name: 'Register Truck', path: '/register' },
+    { name: 'Register Driver', path: '/driverreg' },
+    { name: 'Delivery', path: '/map' },
+  ];
 
   return (
     <nav className={`fixed w-full z-10 transition-colors duration-300 ${isScrolled ? 'bg-white text-black' : 'bg-gray-800 text-white'} shadow`}>
@@ -47,36 +50,12 @@ const Navbar = () => {
             >
               <span className="sr-only">Open main menu</span>
               {isOpen ? (
-                <svg
-                  className="block h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               ) : (
-                <svg
-                  className="block h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  />
+                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
               )}
             </button>
@@ -85,76 +64,26 @@ const Navbar = () => {
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
-              <img
-                className="lg:block h-8 w-auto"
-                src="truck.png"
-                alt="Workflow"
-              />
+              <img className="lg:block h-8 w-auto" src="truck.png" alt="Workflow" />
               <span className={`ml-2 text-xl font-bold ${isScrolled ? 'text-black' : 'text-white'}`}>FleetMaster</span>
             </div>
 
-            {/* Menu items */}
+            {/* Desktop menu items */}
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                {/* Dashboard */}
-                <Link
-                  to="/"
-                  className={`${
-                    activeMenu === 'Dashboard'
+                {navItems.map(item => (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className={`${activeMenu === item.name
                       ? 'bg-gray-900 text-white'
                       : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
-                  } px-3 py-2 rounded-md text-sm font-medium`}
-                  onClick={() => handleMenuItemClick('Dashboard')}
-                >
-                  Dashboard
-                </Link>
-                {/* Team */}
-                <Link
-                  to="/drivers"
-                  className={`${
-                    activeMenu === 'Team'
-                      ? 'bg-gray-900 text-white'
-                      : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
-                  } px-3 py-2 rounded-md text-sm font-medium`}
-                  onClick={() => handleMenuItemClick('Team')}
-                >
-                  Team
-                </Link>
-                {/* Projects */}
-                <Link
-                  to="/register"
-                  className={`${
-                    activeMenu === 'Register'
-                      ? 'bg-gray-900 text-white'
-                      : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
-                  } px-3 py-2 rounded-md text-sm font-medium`}
-                  onClick={() => handleMenuItemClick('Projects')}
-                >
-                  Register Truck
-                </Link>
-                <Link
-                  to="/driverreg"
-                  className={`${
-                    activeMenu === 'Register'
-                      ? 'bg-gray-900 text-white'
-                      : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
-                  } px-3 py-2 rounded-md text-sm font-medium`}
-                  onClick={() => handleMenuItemClick('Projects')}
-                >
-                  Register Driver
-                </Link>
-                {/* Calendar */}
-                <Link
-                  to="/map"
-                  className={`${
-                    activeMenu === 'Calendar'
-                      ? 'bg-gray-900 text-white'
-                      : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
-                  } px-3 py-2 rounded-md text-sm font-medium`}
-                  onClick={() => handleMenuItemClick('Calendar')}
-                >
-                  delivery
-                </Link>
+                      } px-3 py-2 rounded-md text-sm font-medium`}
+                    onClick={() => handleMenuItemClick(item.name)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
@@ -171,7 +100,6 @@ const Navbar = () => {
                   aria-haspopup="true"
                 >
                   <span className="sr-only">Open user menu</span>
-                  {/* Profile image */}
                 </button>
               </div>
             </div>
@@ -183,54 +111,19 @@ const Navbar = () => {
       {isOpen && (
         <div className="sm:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            {/* Dashboard */}
-            <Link
-              to="/"
-              className={`${
-                activeMenu === 'Dashboard'
+            {navItems.map(item => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`${activeMenu === item.name
                   ? 'bg-gray-900 text-white'
                   : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
-              } block px-3 py-2 rounded-md text-base font-medium`}
-              onClick={() => handleMenuItemClick('Dashboard')}
-            >
-              Dashboard
-            </Link>
-            {/* Team */}
-            <Link
-              to="/drivers"
-              className={`${
-                activeMenu === 'Team'
-                  ? 'bg-gray-900 text-white'
-                  : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
-              } block px-3 py-2 rounded-md text-base font-medium`}
-              onClick={() => handleMenuItemClick('Team')}
-            >
-              Team
-            </Link>
-            {/* Projects */}
-            <Link
-              to="#"
-              className={`${
-                activeMenu === 'Projects'
-                  ? 'bg-gray-900 text-white'
-                  : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
-              } block px-3 py-2 rounded-md text-base font-medium`}
-              onClick={() => handleMenuItemClick('Projects')}
-            >
-              Projects
-            </Link>
-            {/* Calendar */}
-            <Link
-              to="#"
-              className={`${
-                activeMenu === 'Calendar'
-                  ? 'bg-gray-900 text-white'
-                  : `text-${isScrolled ? 'black' : 'gray-300'} hover:bg-gray-700 hover:text-${isScrolled ? 'black' : 'white'}`
-              } block px-3 py-2 rounded-md text-base font-medium`}
-              onClick={() => handleMenuItemClick('Calendar')}
-            >
-              Calendar
-            </Link>
+                  } block px-3 py-2 rounded-md text-base font-medium`}
+                onClick={() => handleMenuItemClick(item.name)}
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
         </div>
       )}
