@@ -20,9 +20,8 @@ app.use('/trucks', trucksRouter);
 app.use('/drivers', driversRouter); // Add the drivers route
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://suhas:suhas2244@cluster0.nhaclgq.mongodb.net/', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect('mongodb+srv://suhas:suhas2244@cluster0.nhaclgq.mongodb.net/mydatabase', {
+  // Removed deprecated options
 })
   .then(() => {
     console.log('Connected to MongoDB');

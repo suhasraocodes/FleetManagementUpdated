@@ -41,35 +41,36 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST a new truck with image upload
-router.post('/reg', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'driverImage', maxCount: 1 }]), async (req, res) => {
+router.post('/reg', upload.single('image'), async (req, res) => {
+  try {
     const truck = new Truck({
-        name: req.body.name,
-        location: req.body.location,
-        driver: req.body.driver,
-        driverImage: req.files['driverImage'] ? req.files['driverImage'][0].path : null,
-        specifications: req.body.specifications,
-        maintenance: req.body.maintenance,
-        capacity: req.body.capacity,
-        fuelType: req.body.fuelType,
-        status: req.body.status,
-        image: req.files['image'] ? req.files['image'][0].path : null,
-        coordinates: {
-            lat: req.body['coordinates.lat'],
-            lng: req.body['coordinates.lng']
-        },
-        licensePlate: req.body.licensePlate,
-        year: req.body.year,
-        model: req.body.model
+      name: req.body.name,
+      location: req.body.location,
+      driver: req.body.driver,
+      driverImage: req.body.driverImagePath || null, // Use driverImagePath directly
+      specifications: req.body.specifications,
+      maintenance: req.body.maintenance,
+      capacity: req.body.capacity,
+      fuelType: req.body.fuelType,
+      status: req.body.status,
+      image: req.file ? req.file.path.replace(/\\/g, '/') : null, // Handle single image upload
+      coordinates: {
+        lat: req.body['coordinates.lat'],
+        lng: req.body['coordinates.lng']
+      },
+      licensePlate: req.body.licensePlate,
+      year: req.body.year,
+      model: req.body.model
     });
 
-    try {
-        const newTruck = await truck.save();
-        res.status(201).json(newTruck);
-    } catch (err) {
-        console.error('Error while saving truck:', err);
-        res.status(400).json({ message: 'Bad Request', error: err.message });
-    }
+    const newTruck = await truck.save();
+    res.status(201).json(newTruck);
+  } catch (err) {
+    console.error('Error while saving truck:', err);
+    res.status(400).json({ message: 'Bad Request', error: err.message });
+  }
 });
+
 
 
 

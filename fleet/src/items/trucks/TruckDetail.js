@@ -47,6 +47,9 @@ const TruckDetail = () => {
   // Fix the backslashes in the driver's image URL
   const driverImageUrl = truck.driverImage ? `http://localhost:8000/${truck.driverImage.replace(/\\/g, '/')}` : '/path/to/default/avatar.jpg';
 
+  // Log the driver's image URL to the console
+  console.log('Driver Image URL:', truck.driverImage);
+
   // Determine the badge color based on status
   const badgeClass = truck.status === 'Inactive' ? 'bg-red-500 text-white' : 'bg-green-100 text-green-800';
 
