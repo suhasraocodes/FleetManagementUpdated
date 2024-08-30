@@ -145,7 +145,7 @@ const Navbar = () => {
                 </Link>
                 {/* Calendar */}
                 <Link
-                  to="#"
+                  to="/map"
                   className={`${
                     activeMenu === 'Calendar'
                       ? 'bg-gray-900 text-white'
@@ -153,7 +153,7 @@ const Navbar = () => {
                   } px-3 py-2 rounded-md text-sm font-medium`}
                   onClick={() => handleMenuItemClick('Calendar')}
                 >
-                  Calendar
+                  delivery
                 </Link>
               </div>
             </div>

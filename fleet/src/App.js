@@ -5,11 +5,12 @@ import HomePage from './items/Homepage';
 import Vehicles from './items/Vehicles';
 import TruckList from './items/trucks/TruckList';
 import TruckDetail from './items/trucks/TruckDetail';
-import { CardWithForm } from './items/card';
-import DriversList from './items/driver/driverslist';// Import the DriversList component
-import Footer from './items/footer';// Import the Footer component
+import DriversList from './items/driver/driverslist'; // Import the DriversList component
+import Footer from './items/footer'; // Import the Footer component
 import Register from './items/Registration/Register';
 import DriverRegister from './items/Registration/DriverRegister';
+import MapWithCurrentLocation from './items/routing/DestinationPath'; // Import the MapWithCurrentLocation component
+
 function App() {
   return (
     <Router>
@@ -21,9 +22,10 @@ function App() {
             <Route path="/vehicles" element={<Vehicles />} />
             <Route path="/trucks" element={<TruckList />} />
             <Route path="/trucks/:id" element={<TruckDetail />} />
-            <Route path="/drivers" element={<DriversList />} /> {/* Add this route */}
+            <Route path="/drivers" element={<DriversList />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/driverreg" element={<DriverRegister/>}/>
+            <Route path="/driverreg" element={<DriverRegister />} />
+            <Route path="/map" element={<MapWithCurrentLocation />} /> {/* Add this route */}
           </Routes>
           {/* <div className="flex justify-center items-center h-screen">
             <CardWithForm />
