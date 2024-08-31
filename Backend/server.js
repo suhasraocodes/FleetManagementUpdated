@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8000;
 // Import routes
 const trucksRouter = require('./routes/trucks');
 const driversRouter = require('./routes/drivers'); // Import the drivers route
-
+const assignRouter = require('./routes/Assignment');
 // Middleware to serve static files from the 'uploads' directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -18,6 +18,7 @@ app.use(cors());
 // Use routes
 app.use('/trucks', trucksRouter);
 app.use('/drivers', driversRouter); // Add the drivers route
+app.use('/assign', assignRouter);
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://suhas:suhas2244@cluster0.nhaclgq.mongodb.net/', {

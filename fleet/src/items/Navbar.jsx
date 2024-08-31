@@ -32,6 +32,7 @@ const Navbar = () => {
     { name: 'Register Truck', path: '/register' },
     { name: 'Register Driver', path: '/driverreg' },
     { name: 'Delivery', path: '/map' },
+    { name: 'Assign', path: '/assign' },
   ];
 
   return (

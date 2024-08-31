@@ -1,9 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card } from '../../components/ui/card'; // Adjust the path as needed
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import Routing from './Routing'; // Adjust the path as needed
+import L from 'leaflet';
+import 'leaflet-routing-machine';
+
+// Fix for default marker icons in React Leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png'
+});
+
+const Routing = ({ start, end }) => {
+    const map = useMap();
+
+    useEffect(() => {
+        if (start && end) {
+            // Remove existing routing control if any
+            map.eachLayer(layer => {
+                if (layer instanceof L.Routing.Control) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            // Add new routing control
+            const control = L.Routing.control({
+                waypoints: [
+                    L.latLng(start),
+                    L.latLng(end)
+                ],
+                routeWhileDragging: true,
+                router: L.Routing.osrmv1({
+                    language: 'en',
+                    profile: 'driving'
+                })
+            }).addTo(map);
+
+            // Debugging
+            console.log("Routing control added with waypoints:", start, end);
+
+            // Clean up routing control on component unmount
+            return () => {
+                map.removeControl(control);
+            };
+        }
+    }, [start, end, map]);
+
+    return null;
+};
 
 const DriverAssignments = () => {
     const [drivers, setDrivers] = useState([]);
