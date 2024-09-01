@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/authContext';
+import { getAuth, signOut } from 'firebase/auth';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState('Dashboard');
   const [isScrolled, setIsScrolled] = useState(false);
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -13,6 +17,12 @@ const Navbar = () => {
   const handleMenuItemClick = (menuItem) => {
     setActiveMenu(menuItem);
     setIsOpen(false); // Close menu on item click for mobile view
+  };
+
+  const handleLogout = async () => {
+    const auth = getAuth();
+    await signOut(auth);
+    navigate('/login');
   };
 
   useEffect(() => {
@@ -34,6 +44,10 @@ const Navbar = () => {
     { name: 'Delivery', path: '/map' },
     { name: 'Assign', path: '/assign' },
   ];
+
+  const getInitials = (email) => {
+    return email ? email.charAt(0).toUpperCase() : '';
+  };
 
   return (
     <nav className={`fixed w-full z-10 transition-colors duration-300 ${isScrolled ? 'bg-white text-black' : 'bg-gray-800 text-white'} shadow`}>
@@ -93,15 +107,53 @@ const Navbar = () => {
             {/* Profile dropdown */}
             <div className="ml-3 relative">
               <div>
-                <button
-                  type="button"
-                  className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                >
-                  <span className="sr-only">Open user menu</span>
-                </button>
+                {currentUser ? (
+                  <>
+                    <button
+                      type="button"
+                      className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                      id="user-menu-button"
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      onClick={toggleMenu}
+                    >
+                      <span className="sr-only">Open user menu</span>
+                      <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                        {getInitials(currentUser.email)}
+                      </div>
+                    </button>
+                    {isOpen && (
+                      <div
+                        className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        role="menu"
+                        aria-orientation="vertical"
+                        aria-labelledby="user-menu-button"
+                      >
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Profile
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
+                  >
+                    Login
+                  </Link>
+                )}
               </div>
             </div>
           </div>

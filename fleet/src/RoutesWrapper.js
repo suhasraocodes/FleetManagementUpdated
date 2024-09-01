@@ -10,6 +10,8 @@ import DriverRegister from './items/Registration/DriverRegister';
 import MapWithCurrentLocation from './items/routing/DestinationPath';
 import LoadingSpinner from './items/Loading';
 import AssignmentPage from './items/routing/AssignRoutes';
+import Login from './components/auth/login';
+import Registers from './components/register';
 const RoutesWrapper = () => {
     const [loading, setLoading] = useState(false);
     const location = useLocation();
@@ -33,7 +35,8 @@ const RoutesWrapper = () => {
             <Route path="/driverreg" element={<DriverRegister />} />
             <Route path="/map" element={<MapWithCurrentLocation />} />
             <Route path="/assign" element={<AssignmentPage />} />    
-            
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/reg" element={<Registers/>}/>
         </Routes>
     );
 };

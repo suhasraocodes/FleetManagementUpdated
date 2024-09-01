@@ -4,9 +4,10 @@ import Navbar from './items/Navbar';
 import Footer from './items/footer';
 import { Toaster } from 'sonner';
 import RoutesWrapper from './RoutesWrapper';
-
+import { AuthProvider } from './contexts/authContext';
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <div className="flex flex-col min-h-screen">
         <Navbar />
@@ -17,6 +18,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </AuthProvider>
   );
 }
 
