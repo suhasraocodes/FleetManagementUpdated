@@ -148,11 +148,12 @@ const Navbar = () => {
                   </>
                 ) : (
                   <Link
-                    to="/login"
-                    className="bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
-                  >
-                    Login
-                  </Link>
+  to="/login"
+  className="bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-900"
+>
+  Login
+</Link>
+
                 )}
               </div>
             </div>
